@@ -15,6 +15,7 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Avatar from '@material-ui/core/Avatar';
 import CardHeader from '@material-ui/core/CardHeader';
 import Arrow from '@material-ui/icons/ArrowBackRounded'
+import TempConverter  from './TempConverter'
 import './loader.css';
 import './owfont-regular.css'
 
@@ -235,7 +236,9 @@ class WeatherCard extends React.Component {
                 City: {this.state.data.name}
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
-                Temp: {this.state.data.main.temp} C
+                Temp: <TempConverter tempC = {this.state.data.main.temp} 
+                                     isCelsius
+                      />
             </Typography>
             <Typography className={classes.pos} color="textSecondary">
                 WindPower: {this.state.data.wind.speed}
@@ -273,8 +276,16 @@ class WeatherCard extends React.Component {
           <CardContent>
             <Typography className={classes.pos} color="textSecondary">Humidity:{this.state.data.main.humidity}</Typography>
             <Typography className={classes.pos} color="textSecondary">Pressure: {this.state.data.main.pressure}</Typography>
-            <Typography className={classes.pos} color="textSecondary">Temperature max:{this.state.data.main.temp_max}</Typography>
-            <Typography className={classes.pos} color="textSecondary">Temperature min:{this.state.data.main.temp_min}</Typography>
+            <Typography className={classes.pos} color="textSecondary">Temperature max: 
+              <TempConverter tempC = {this.state.data.main.temp_max} 
+                                     isCelsius
+              />
+            </Typography>
+            <Typography className={classes.pos} color="textSecondary">Temperature min:
+              <TempConverter tempC = {this.state.data.main.temp_min}
+                                     isCelsius
+              />  
+            </Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].id}</Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].main}</Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].description}</Typography>
