@@ -2,7 +2,7 @@ import React from 'react';
 import Map from './Map';
 import WeatherCard from './WeatherCard';
 
-const WeatherBox = ({position}) => <WeatherCard position={position} />;
+
 
 class Container extends React.Component {
     constructor(props) {
