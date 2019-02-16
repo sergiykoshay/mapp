@@ -52,8 +52,6 @@ const styles = theme => ({
 class WeatherCard extends React.Component {
     constructor(props){
         super(props);
-        console.log('constructor props',this.props)
-
         this.state = {
             position:{}, 
             expanded: false,
