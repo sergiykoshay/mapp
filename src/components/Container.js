@@ -4,6 +4,7 @@ import WeatherCard from './WeatherCard';
 
 
 
+
 class Container extends React.Component {
     constructor(props) {
       super(props);
@@ -63,7 +64,6 @@ class Container extends React.Component {
             onClick={this.onClickMap}
             >
             </Map>
-
         </div>
       );
     }

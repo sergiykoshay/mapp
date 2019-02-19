@@ -18,6 +18,7 @@ import Arrow from '@material-ui/icons/ArrowBackRounded'
 import TempConverter  from './TempConverter'
 import './loader.css';
 import './owfont-regular.css'
+import Time from './Time';
 
 
 
@@ -61,7 +62,7 @@ class WeatherCard extends React.Component {
             UTC: Date.now(),
             nigth: '',
             offset:{
-              rawOffset: 0   
+              rawOffset: 0
             },
             data: {
                 main: {
@@ -223,34 +224,30 @@ class WeatherCard extends React.Component {
               <img src={`http://openweathermap.org/img/w/${this.state.data.weather[0].icon}.png`  } alt={this.state.data.weather[0].description} />
             </Avatar>
           }
-          title={this.setLocalDate(this.state.UTC)}
-          subheader={this.setTime(this.state.UTC)}
         />
         <CardContent>
-            <Typography variant="h5" component="h2">
-                Today: {this.setLocalDay(this.state.UTC)} 
-            </Typography>
-            <Typography variant="h4" component="h2">
-                City: {this.state.data.name}
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-                Temp: <TempConverter tempC = {this.state.data.main.temp} 
-                                     isCelsius
-                      />
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-                WindPower: {this.state.data.wind.speed}
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">
-              <Arrow style={{ transform: 'rotate(' + this.props.direction + 'deg)' }} />    
-            </Typography>
-
-
-            <Typography className={classes.pos} color="textSecondary">  
+          <Typography className={classes.pos} color="textSecondary">  
               <i className= {"owf owf-" + this.state.data.weather[0].id + "-"+ this.state.nigth + " owf-4x"}></i>
-            </Typography>
-
-
+          </Typography>
+          <Typography variant="h5" component="h2">
+              Today: {this.setLocalDay(this.state.UTC)} 
+          </Typography>
+          <Typography variant="h4" component="h2">
+              City: {this.state.data.name}
+          </Typography>
+          <Typography component={'div'}>
+              Temp: <TempConverter tempC = {this.state.data.main.temp} 
+                                    isCelsius
+                    />
+          </Typography>
+              Time: <Time value={this.state.UTC} lat={this.state.position.lat} lng={this.state.position.lon} result='day'/>
+ 
+          <Typography className={classes.pos} color="textSecondary">
+              WindPower: {this.state.data.wind.speed}
+          </Typography>
+          <Typography className={classes.pos} color="textSecondary">
+            <Arrow style={{ transform: 'rotate(' + this.props.direction + 'deg)' }} />    
+          </Typography>
         </CardContent>
         <CardActions className={classes.actions} disableActionSpacing>
           <IconButton aria-label="Reload" onClick={this.loadWeather}>
@@ -272,23 +269,22 @@ class WeatherCard extends React.Component {
         </CardActions>
         <Collapse in={this.state.expanded} timeout="auto" unmountOnExit>
           <CardContent>
-            <Typography className={classes.pos} color="textSecondary">Humidity:{this.state.data.main.humidity}</Typography>
+            <Typography className={classes.pos} color="textSecondary">Humidity:{this.state.data.main.humidity}%</Typography>
             <Typography className={classes.pos} color="textSecondary">Pressure: {this.state.data.main.pressure}</Typography>
-            <Typography className={classes.pos} color="textSecondary">Temperature max: 
+            Temperature max: 
               <TempConverter tempC = {this.state.data.main.temp_max} 
                                      isCelsius
               />
-            </Typography>
-            <Typography className={classes.pos} color="textSecondary">Temperature min:
+
+            Temperature min:
               <TempConverter tempC = {this.state.data.main.temp_min}
                                      isCelsius
               />  
-            </Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].id}</Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].main}</Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].description}</Typography>
-            <Typography className={classes.pos} color="textSecondary">sunrise : {this.setTime( this.state.data.sys.sunrise*1000)}</Typography>
-            <Typography className={classes.pos} color="textSecondary">sunset : {this.setTime( this.state.data.sys.sunset*1000)}</Typography>
+            <Typography component={'div'} className={classes.pos} color="textSecondary">sunrise : <Time value={this.state.data.sys.sunrise*1000} lat={this.state.position.lat} lng={this.state.position.lon} result='time'/>{this.setTime( this.state.data.sys.sunrise*1000)}</Typography>
+            <Typography component={'div'} className={classes.pos} color="textSecondary">sunset : {this.setTime( this.state.data.sys.sunset*1000)}</Typography>
           </CardContent>
         </Collapse>
       </Card>

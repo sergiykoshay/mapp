@@ -4,7 +4,7 @@ import React from 'react';
 class TempConverter extends React.Component {
     constructor(props) {
       super(props);
-      this.props = {tempC: 0};
+  
       this.state = {isCelsius: true,
                     tempC: props.tempC};
   
