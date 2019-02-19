@@ -283,8 +283,8 @@ class WeatherCard extends React.Component {
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].id}</Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].main}</Typography>
             <Typography className={classes.pos} color="textSecondary">Id : {this.state.data.weather[0].description}</Typography>
-            <Typography component={'div'} className={classes.pos} color="textSecondary">sunrise : <Time value={this.state.data.sys.sunrise*1000} lat={this.state.position.lat} lng={this.state.position.lon} result='time'/>{this.setTime( this.state.data.sys.sunrise*1000)}</Typography>
-            <Typography component={'div'} className={classes.pos} color="textSecondary">sunset : {this.setTime( this.state.data.sys.sunset*1000)}</Typography>
+            <Typography component={'div'} className={classes.pos} color="textSecondary">sunrise : <Time value={this.state.data.sys.sunrise*1000} lat={this.state.position.lat} lng={this.state.position.lon} result='time'/></Typography>
+            <Typography component={'div'} className={classes.pos} color="textSecondary">sunrise : <Time value={this.state.data.sys.sunset*1000} lat={this.state.position.lat} lng={this.state.position.lon} result='time'/></Typography>
           </CardContent>
         </Collapse>
       </Card>

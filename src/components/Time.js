@@ -51,7 +51,7 @@ class Time extends React.Component {
         const date = new Date(d);
         const dayName = [
           "Sunday", "Monday", "Thusday", "Wensday",
-          "Thusday", "Friday", "Satuday" 
+          "Thursday", "Friday", "Satuday" 
         ];
         const day = date.getDay();
         return dayName[day];

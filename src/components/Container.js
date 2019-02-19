@@ -16,12 +16,13 @@ class Container extends React.Component {
         isMarkerShown: false,
 
       };
-      this.onClickMap = this.onClickMap.bind(this);
+      //this.onClickMap = this.onClickMap.bind(this);
     }
 
 
     coord = () => {
-      console.log(navigator.geolocation);
+       
+          console.log(navigator.geolocation.getCurrentPosition);
     }
 
 
@@ -50,7 +51,7 @@ class Container extends React.Component {
   
   
     componentDidMount() {
-      console.log("Container is mount");
+      console.log("Container is mount",this.state.currentLatLng);
       this.showCurrentLocation();
     }
   
@@ -60,10 +61,11 @@ class Container extends React.Component {
           <Map
             isMarkerShown={this.state.isMarkerShown}
             currentLocation={this.state.currentLatLng}
-            сenter={ this.props.currentLocation }
+            сenter={this.props.currentLocation }
             onClick={this.onClickMap}
             >
             </Map>
+            <button onClick={this.coord}>COOORD</button>
         </div>
       );
     }
