@@ -1,9 +1,5 @@
 import React from 'react';
 import Map from './Map';
-import WeatherCard from './WeatherCard';
-
-
-
 
 class Container extends React.Component {
     constructor(props) {
@@ -65,7 +61,7 @@ class Container extends React.Component {
             onClick={this.onClickMap}
             >
             </Map>
-            <button onClick={this.coord}>COOORD</button>
+           
         </div>
       );
     }

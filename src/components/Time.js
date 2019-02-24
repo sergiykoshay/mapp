@@ -72,7 +72,7 @@ class Time extends React.Component {
 
         return hours +':'+ min;
       }
-    
+
 
         
 render() {
@@ -96,7 +96,7 @@ render() {
   if(this.props.result==="day"){
     return (
       <div className="container">
-        <div>date: {this.setLocalDay(this.props.value)} </div>
+        <div>day of week: {this.setLocalDay(this.props.value)} </div>
       </div>
     )
   }
