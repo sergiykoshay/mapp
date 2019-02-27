@@ -31,10 +31,10 @@ class TempConverter extends React.Component {
     };  
     
     toCelsius = (F) => {
-      return Math.round((F - 32) * 5 / 9);
+      return Math.round(((F - 32) * 5 / 9)*100)/100;
     };
     toFahrenheit = (C) => {
-      return Math.round((C * 9 / 5) + 32);
+      return Math.round(((C * 9 / 5) + 32)*100)/100;
     };
     
   
