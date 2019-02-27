@@ -13,15 +13,15 @@ class Day extends React.Component {
     }
     componentDidMount() {
       this.getSun();
-      console.log("Day state =>",this.state)
+      // console.log("Day state =>",this.state)
     }
 
     getSun = () => {
-        console.log(this.state)
+        // console.log(this.state)
         const dt = this.state.currentTime;
         const ss = this.state.sunset*1000;
         const sr = this.state.sunrise*1000;
-        console.log("sunset =>", ss, 'sunrise =>', sr)
+        // console.log("sunset =>", ss, 'sunrise =>', sr)
      
             if ( dt > sr && dt <= ss ){
               this.setState(state => ({ nigth: "d" }))

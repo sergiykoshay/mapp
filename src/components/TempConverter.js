@@ -41,13 +41,11 @@ class TempConverter extends React.Component {
     render() {
       
       return (
-        <div className = 'container'>
-          <div onClick={this.handleClick}
+          <span onClick={this.handleClick}
                className = 'temp'>
             {this.state.tempC} &deg;
             {this.state.isCelsius ? 'C' : 'F'}
-          </div>
-        </div>
+          </span>
       );
     }
   }

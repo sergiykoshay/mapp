@@ -4,34 +4,45 @@ class Time extends React.Component {
     constructor(props){
     super(props);  
     this.state = {
-        UTC: Date.now(),
+
         nigth: '',
-        offset:{
-          rawOffset: 0   
+        offset:{  
         },
     }
     }
 
-    componentWillMount() {
-        console.log(this.props)
-        this.getTimeOffset();
+    componentDidMount() {
+        // console.log(this.props)
+        this.printData();
      
     }
 
-    getTimeOffset = () => {
-        let url = 'https://maps.googleapis.com/maps/api/timezone/json?location=';
-        let key = 'AIzaSyBz9UtX-wlLAqjxqocCUHAStUQhE2Uw2ZY';
-        let URL =  `${url}${this.props.lat},${this.props.lng}&timestamp=${this.props.value/100}&key=${key}`;
-        console.log(URL);
-        fetch(URL) 
-        .then(res => res.json())
-        .then(
-          (res) => {
-            console.log(res);
-            this.setState({offset: res});
-          })
-      }
+     fetchData = async () => {
+      const url = 'https://maps.googleapis.com/maps/api/timezone/json?location=';
+      const key = 'AIzaSyBz9UtX-wlLAqjxqocCUHAStUQhE2Uw2ZY';
+      const URL =  `${url}${this.props.lat},${this.props.lng}&timestamp=${this.props.value/100}&key=${key}`;
+      // console.log(URL);
+      return fetch(URL) 
+      
+    }
     
+     printData = async () => {
+      try {
+        this.mounted = true;
+        const data = await this.fetchData()
+        const json = await data.json()
+        if(this.mounted) {
+          this.setState({offset: json
+          })};
+        //console.log(json)
+      } catch(e) {
+        console.error("Problem", e)
+      }
+    }
+
+    componentWillUnmount() {
+      this.mounted = false;
+    }
     
       setLocalDate = (d) => {
         const date = new Date(d);
@@ -59,16 +70,16 @@ class Time extends React.Component {
       
       setTime = (t) => {
         let offset = this.state.offset.rawOffset;
-        console.log(offset);
+        // console.log(offset);
         if (offset === undefined){offset=0}
-        console.log(offset);  
+        // console.log(offset);  
         let newTime = t+offset*1000;
         let time = new Date(newTime)
         let hours = time.getUTCHours();
         let min = time.getUTCMinutes();
         if(hours<10){hours="0" + hours}
         if(min<10){min="0" + min}
-        console.log(hours,min)
+        // console.log(hours,min)
 
         return hours +':'+ min;
       }
@@ -79,9 +90,9 @@ render() {
   if(this.props.result==="all"||this.props.result===undefined){
     return (
       <div className="container">
-        <div>time: {this.setTime(this.props.value)} </div>
-        <div>date: {this.setLocalDate(this.props.value)} </div>
-        <div>date: {this.setLocalDay(this.props.value)} </div>
+        <div>{this.setTime(this.props.value)} </div>
+        <div>{this.setLocalDay(this.props.value)} </div>
+        <div>{this.setLocalDate(this.props.value)} </div>
       </div>
     )
   }

@@ -35,7 +35,7 @@ class WeatherCard extends React.Component {
                 dt: 0,
                 wind: {speed: 0, deg: 0},
                 weather: [
-                  {id: 0, main: "", description: "", icon: ""}
+                  {id: 0, main: "", description: "", icon: "04n"}
                 ],
                 sys: {message: "", country: "", sunrise: 0, sunset: 0}
             },
@@ -46,31 +46,30 @@ class WeatherCard extends React.Component {
    
     }
 
-        
-   loadWeather = () => {
-        let KEY = 'd735182480adde5eb03094b44670d2fe',
-        URL = 'http://api.openweathermap.org/data/2.5',
-        lat = this.state.position.lat,
-        lon = this.state.position.lon;
-
-        console.log(lat,lon)
-        
-        var url = `${URL}/weather?lat=${lat}&lon=${lon}&APPID=${KEY}&units=metric`;
-        console.log(url);
-
-        this.setState({ isLoading: true });
-
-        fetch(url)
-          .then(response => {
-            if (response.ok) {
-              return response.json();
-            } else {
-              throw new Error('Something went wrong ...');
-            }
-          })
-          .then(data => this.setState({ data: data, isLoading: false }))
-          .catch(error => this.setState({ error, isLoading: false }));
+   fetchData = async () => {        
+      const KEY = 'd735182480adde5eb03094b44670d2fe',
+      URL = 'http://api.openweathermap.org/data/2.5',
+      lat = this.state.position.lat,
+      lon = this.state.position.lon;
+      //console.log(lat,lon)
+      var url = `${URL}/weather?lat=${lat}&lon=${lon}&APPID=${KEY}&units=metric`;
+      //console.log(url);
+      this.setState({ isLoading: true });
+      return fetch(url)
+     
+    }
+    
+  printData = async () => {
+      try {
+        const data = await this.fetchData()
+        const json = await data.json()
+        //console.log(json)
+        this.setState({ data: json, isLoading: false })
+      } catch(e) {
+        console.error("Problem", e)
       }
+    }    
+
 
   static getDerivedStateFromProps(nextProps, prevState){
     if(nextProps.position!==prevState.position){
@@ -78,17 +77,20 @@ class WeatherCard extends React.Component {
    }
    else return null;
  }
- 
+ componentDidMount() {
+   this.printData()
+ }
+
+
+
  componentDidUpdate(prevProps, prevState) {
    if(prevProps.position!==this.props.position){
      this.setState({position: this.props.position});
-     this.loadWeather();
+     this.printData();
    }
  }
 
-  handleExpandClick = () => {
-    this.setState(state => ({ expanded: !state.expanded }));
-  };
+
 
   render() {
     const { isLoading, error } = this.state;
@@ -99,47 +101,48 @@ class WeatherCard extends React.Component {
     if (isLoading) {
       return <div className="lds-dual-ring"></div>;
     }
-    console.log( 'STATE IN RENDER',this.state.data )
+    console.log( 'ICON===>  ',this.state.data.weather[0].icon )
     return (
       <div className="card">
-        <h2 className = "card__city">City: {this.state.data.name}</h2>
-        <img src={`http://openweathermap.org/img/w/${this.state.data.weather[0].icon}.png`  } alt={this.state.data.weather[0].description} />
-        {/* <i className= {"owf owf-" + this.state.data.weather[0].id + "-"+ this.state.nigth + " owf-4x"}></i> */}
-        <div className= "cart__time">
-           <Time value={this.state.UTC} lat={this.state.position.lat} lng={this.state.position.lon} result='time'/>
-           <Time value={this.state.UTC} lat={this.state.position.lat} lng={this.state.position.lon} result='date'/>
-          
-           <Time value={this.state.UTC} lat={this.state.position.lat} lng={this.state.position.lon} result='day'/>
+        <div className = "card__header">
+          <h2>{this.state.data.name}</h2>
         </div>
-        <Day currentTime={this.state.UTC}
-                  sunrise = {this.state.data.sys.sunrise}
-                  sunset = {this.state.data.sys.sunset}  
-        />
-        <div className="card__temp">
-          Temp: <TempConverter tempC = {this.state.data.main.temp} 
-                      isCelsius
-                />
-        </div>
-        <div>
-          WindPower: {this.state.data.wind.speed}
-        </div>
-        <div>
-          <Arrow style={{ transform: 'rotate(' + this.props.direction + 'deg)' }} />
-        </div>
-        Temperature max: 
-              <TempConverter tempC = {this.state.data.main.temp_max} 
-                                     isCelsius
+        <div className = "card__main">
+          <div className = "col__left">
+            <Time value={this.state.UTC} lat={this.state.position.lat} lng={this.state.position.lon} result='all'/>
+            <Day currentTime={this.state.UTC}
+                    sunrise = {this.state.data.sys.sunrise}
+                    sunset = {this.state.data.sys.sunset}  
+            />
+          </div>
+          <div className = "col__right">
+            <div>
+              <TempConverter tempC = {this.state.data.main.temp} 
+                          isCelsius
               />
-
-            Temperature min:
-              <TempConverter tempC = {this.state.data.main.temp_min}
-                                     isCelsius
-              /> 
+            </div>
+            <div>
+              <Arrow style={{ transform: 'rotate(' + this.state.data.wind.deg + 'deg)' }} /> {this.state.data.wind.speed} kmh
+            </div>
+            {/* <img src={`http://openweathermap.org/img/w/${this.state.data.weather[0].icon}.png`  } alt={this.state.data.weather[0].description} /> */}
+            <div>
+              <i className= {"owf owf-" + this.state.data.weather[0].id + " owf-4x"}></i>
+            </div>
+            <div>
+              max <TempConverter tempC = {this.state.data.main.temp_max} 
+                                  isCelsius
+            />
+            </div>
+            <div>
+            min <TempConverter tempC = {this.state.data.main.temp_min}
+                                  isCelsius
+            />
+            </div>
+          </div>
+        </div>
       </div>
     );
   }
 }
-
-
 
 export default WeatherCard;
